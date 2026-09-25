@@ -133,11 +133,12 @@ const seedMongoIfEmpty = async () => {
     }
 
     // 5. Connection Information Collection (as requested by user)
+    const clusterHost = process.env.MONGODB_URI?.split('@')[1]?.split('/')[0]?.split('?')[0] || 'sagar0.kazh0ol.mongodb.net';
     await ConnectionInfo.deleteMany({}); // Keep clean current record
     await ConnectionInfo.create({
       connectionStatus: 'ACTIVE_CONNECTED',
       databaseName: 'sagar_kaushik_portfolio',
-      clusterHost: 'cluster0.uejj6gg.mongodb.net',
+      clusterHost: clusterHost,
       connectedUser: 'sagarkaushik584_db_user',
       connectedAt: new Date(),
       application: 'Sagar Kaushik Full-Stack Portfolio (MERN + FastAPI)',
@@ -145,7 +146,7 @@ const seedMongoIfEmpty = async () => {
       platform: process.platform,
       adminUsername: adminUser,
       collectionsInitialized: ['projects', 'blogs', 'users', 'contacts', 'connection_info'],
-      systemNote: 'MongoDB Atlas cluster0 is active, verified and synced with live portfolio data.'
+      systemNote: `MongoDB Atlas cluster [${clusterHost}] is active, verified and synced with live portfolio data.`
     });
     console.log('[DB] Recorded connection details in [connection_info] collection on MongoDB Atlas.');
 
@@ -154,12 +155,15 @@ const seedMongoIfEmpty = async () => {
   }
 };
 
-export const getDbStatus = () => ({
-  connected: isMongoConnected,
-  mode: isMongoConnected ? 'mongodb' : 'in-memory-fallback',
-  database: 'sagar_kaushik_portfolio',
-  cluster: 'cluster0.uejj6gg.mongodb.net'
-});
+export const getDbStatus = () => {
+  const clusterHost = process.env.MONGODB_URI?.split('@')[1]?.split('/')[0]?.split('?')[0] || 'sagar0.kazh0ol.mongodb.net';
+  return {
+    connected: isMongoConnected,
+    mode: isMongoConnected ? 'mongodb' : 'in-memory-fallback',
+    database: 'sagar_kaushik_portfolio',
+    cluster: clusterHost
+  };
+};
 
 export const getConnectionData = async () => {
   const { mode } = getDbStatus();
