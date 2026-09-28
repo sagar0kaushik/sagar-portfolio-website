@@ -4,7 +4,7 @@ import { Send, Mail, MapPin, Phone, FileText, CheckCircle2, AlertCircle } from '
 import { GithubIcon, LinkedinIcon } from './Icons';
 import { GlassCard } from './GlassCard';
 import { MagneticButton } from './MagneticButton';
-import { InteractiveCharacter } from './InteractiveCharacter';
+import { CharacterProp } from './CharacterProp';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -224,8 +224,7 @@ export const Contact: React.FC = () => {
                 DIGITAL AVATAR // ACTIVE SESSION
               </span>
 
-              {/* Character using the new hoodie model with active eye/head tracking */}
-              <InteractiveCharacter variant="contact" isHeroActive={true} />
+              <CharacterProp variant="contact" isTrackingActive={true} />
 
               <div className="mt-4 flex items-center gap-3">
                 <a

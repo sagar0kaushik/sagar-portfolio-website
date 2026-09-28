@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Play, ArrowUpRight } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon } from './Icons';
-import { InteractiveCharacter } from './InteractiveCharacter';
+import { CharacterProp } from './CharacterProp';
 
 interface HeroProps {
   onViewWorkClick?: () => void;
@@ -210,9 +210,9 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
 
         {/* --- CENTER COLUMN: Stable Interactive Character (5 Cols on LG) --- */}
         <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center relative w-full my-6 lg:my-0">
-          <InteractiveCharacter
+          <CharacterProp
             variant="hero"
-            isHeroActive={true}
+            isTrackingActive={true}
           />
         </div>
 
