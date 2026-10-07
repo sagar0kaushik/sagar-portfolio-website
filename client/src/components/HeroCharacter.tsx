@@ -162,9 +162,9 @@ export const HeroCharacter: React.FC = () => {
         className="w-full h-full object-contain pointer-events-none select-none drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
         preserveAspectRatio="xMidYMax meet"
       >
-        {/* Layer 1: Base Character with Sclera & Golden Glow */}
+        {/* Layer 1: Base Character with Sclera & Grayish-White Glow */}
         <image
-          href="/assets/character/sagar-bust-base.png"
+          href="./assets/character/sagar-bust-base.png"
           x="0"
           y="0"
           width="1024"
@@ -174,7 +174,7 @@ export const HeroCharacter: React.FC = () => {
         {/* Layer 2: Moving Irises with conjugate 360° tracking */}
         <g ref={leftIrisRef}>
           <image
-            href="/assets/character/sagar-iris-left.png"
+            href="./assets/character/sagar-iris-left.png"
             x="427"
             y="395"
             width="52"
@@ -183,7 +183,7 @@ export const HeroCharacter: React.FC = () => {
         </g>
         <g ref={rightIrisRef}>
           <image
-            href="/assets/character/sagar-iris-right.png"
+            href="./assets/character/sagar-iris-right.png"
             x="564"
             y="391"
             width="52"
@@ -193,7 +193,7 @@ export const HeroCharacter: React.FC = () => {
 
         {/* Layer 3: Eyelids & Eyelash Rim Overlay */}
         <image
-          href="/assets/character/sagar-eyelids-overlay.png"
+          href="./assets/character/sagar-eyelids-overlay.png"
           x="0"
           y="0"
           width="1024"
