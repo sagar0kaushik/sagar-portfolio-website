@@ -46,37 +46,39 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[100svh] w-full flex flex-col justify-between pt-6 sm:pt-8 lg:pt-8 pb-5 px-6 sm:px-10 md:px-12 lg:px-16 overflow-hidden bg-[#000000]"
+      className="relative min-h-[100svh] w-full max-w-full flex flex-col justify-between pt-5 sm:pt-8 lg:pt-8 pb-4 sm:pb-5 px-4 sm:px-10 md:px-12 lg:px-16 overflow-hidden bg-[#000000]"
     >
       {/* ========================================================
-          BACKGROUND: AMBIENT GOLDEN GLOW & COORDINATE CROSSHAIRS
+          BACKGROUND: AMBIENT GRAYISH-WHITE GLOW & COORDINATE CROSSHAIRS
           ======================================================== */}
-      {/* Subtle ambient warm golden backlight behind character */}
-      <div className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[520px] bg-[radial-gradient(circle,rgba(245,158,11,0.18)_0%,rgba(217,119,6,0.06)_40%,transparent_70%)] rounded-full blur-[90px] pointer-events-none z-0" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Subtle ambient grayish-white backlight behind character */}
+        <div className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[520px] bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,rgba(210,215,225,0.06)_40%,transparent_70%)] rounded-full blur-[90px]" />
 
-      {/* Coordinate '+' crosshairs matching mockup reference */}
-      <div className="absolute inset-0 pointer-events-none select-none z-0" aria-hidden="true">
-        <span className="absolute left-[28%] top-[38%] font-mono text-xs text-white/10">+</span>
-        <span className="absolute right-[29%] top-[38%] font-mono text-xs text-white/10">+</span>
-        <span className="absolute right-[29%] bottom-[24%] font-mono text-xs text-white/10">+</span>
+        {/* Coordinate '+' crosshairs matching mockup reference */}
+        <div className="absolute inset-0 select-none" aria-hidden="true">
+          <span className="absolute left-[28%] top-[38%] font-mono text-xs text-white/10">+</span>
+          <span className="absolute right-[29%] top-[38%] font-mono text-xs text-white/10">+</span>
+          <span className="absolute right-[29%] bottom-[24%] font-mono text-xs text-white/10">+</span>
+        </div>
       </div>
 
       {/* ========================================================
           TOP HEADER BAR (Matches reference media_1791291181148.png)
           ======================================================== */}
-      <div className="w-full flex flex-col sm:flex-row sm:items-start justify-between z-20 gap-6">
+      <div className="w-full max-w-full flex items-start justify-between z-20 gap-3 sm:gap-6">
         {/* Top-Left: Name & Tagline */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="space-y-1.5 max-w-xs"
+          className="space-y-1 sm:space-y-1.5 max-w-xs shrink-0"
         >
           <div className="font-mono text-xs sm:text-sm font-semibold tracking-[0.25em] text-white uppercase leading-tight">
             SAGAR<br />KAUSHIK
           </div>
-          <div className="w-5 h-[1.5px] bg-neutral-600 my-2" />
-          <p className="font-mono text-[11px] sm:text-xs text-neutral-400 font-normal leading-relaxed">
+          <div className="w-5 h-[1.5px] bg-neutral-600 my-1.5 sm:my-2" />
+          <p className="font-mono text-[10.5px] sm:text-xs text-neutral-400 font-normal leading-relaxed max-w-[260px]">
             A developer crafting clean, scalable and meaningful digital experiences.
           </p>
         </motion.div>
@@ -86,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="hidden md:flex items-center gap-7 lg:gap-8 text-xs font-mono tracking-[0.2em] text-neutral-400 uppercase"
+          className="hidden md:flex items-center gap-4 lg:gap-8 text-[11px] lg:text-xs font-mono tracking-wider lg:tracking-[0.2em] text-neutral-400 uppercase shrink-0"
         >
           <button
             onClick={() => handleScrollTo('about')}
@@ -126,29 +128,52 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           </button>
           <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
         </motion.nav>
+
+        {/* Mobile Top-Right Quick Action */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex md:hidden items-center gap-1.5 shrink-0 pt-0.5"
+        >
+          <a
+            href="/resume.pdf"
+            download="Sagar_Kaushik_Resume.pdf"
+            target="_blank"
+            className="px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-[9px] font-mono tracking-wider text-neutral-200 hover:text-white uppercase transition-colors"
+          >
+            CV
+          </a>
+          <button
+            onClick={() => handleScrollTo('work')}
+            className="px-2 py-0.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-[9px] font-mono tracking-wider text-neutral-200 hover:text-white uppercase transition-colors"
+          >
+            WORK ↗
+          </button>
+        </motion.div>
       </div>
 
       {/* ========================================================
           CENTER CHARACTER: PROMINENT ENLARGED 3D BUST FLUSH TO BOTTOM
-          - Takes ~90vh height & ~56% viewport width
+          - Scales responsibly: 66vh on mobile, 84vh on tablet, 91vh on desktop
           - 100% stable from top to bottom
           - Natural 360° conjugate eye tracking
           ======================================================== */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center pointer-events-none select-none w-full max-w-[860px] lg:max-w-[880px] xl:max-w-[940px] h-[75vh] sm:h-[82vh] md:h-[88vh] lg:h-[91vh] max-h-[860px]">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center pointer-events-none select-none w-full max-w-[860px] lg:max-w-[880px] xl:max-w-[940px] h-[66vh] sm:h-[75vh] md:h-[84vh] lg:h-[91vh] max-h-[860px]">
         <HeroCharacter />
       </div>
 
       {/* ========================================================
           MAIN HERO BODY (Left Copy + Right List)
           ======================================================== */}
-      <div className="relative w-full my-auto py-2 flex items-center justify-between z-20 pointer-events-none">
+      <div className="relative w-full max-w-full my-auto py-2 flex items-center justify-between z-20 pointer-events-none">
         
         {/* --- LEFT COLUMN: Typography & Actions --- */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col justify-center space-y-4 sm:space-y-5 max-w-sm sm:max-w-md z-20 pointer-events-auto"
+          className="flex flex-col justify-center space-y-3.5 sm:space-y-5 max-w-sm sm:max-w-md z-20 pointer-events-auto"
         >
           {/* Index Counter */}
           <div className="font-mono text-xs sm:text-sm tracking-[0.2em] text-neutral-400 flex items-center gap-3">
@@ -159,14 +184,14 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           {/* Large Hero Title matching reference media_1791291181148.png */}
           <div className="space-y-0.5 sm:space-y-1">
             <h1 className="leading-[0.92] select-none tracking-tight">
-              <span className="block font-sans font-bold text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white tracking-[-0.01em] uppercase">
+              <span className="block font-sans font-bold text-3xl xs:text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white tracking-[-0.01em] uppercase">
                 I BUILD
               </span>
               {/* Pixelated DIGITAL Font in warm cream with amber outer glow */}
-              <span className="block font-pixel font-bold text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.75rem] text-[#F5EBE1] tracking-[0.04em] uppercase my-0.5 sm:my-1 leading-[0.95] drop-shadow-[0_0_20px_rgba(245,158,11,0.55)]">
+              <span className="block font-pixel font-bold text-2xl xs:text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.75rem] text-[#F5EBE1] tracking-[0.04em] uppercase my-0.5 sm:my-1 leading-[0.95] drop-shadow-[0_0_20px_rgba(245,158,11,0.55)]">
                 DIGITAL
               </span>
-              <span className="block font-sans font-bold text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white tracking-[-0.01em] uppercase">
+              <span className="block font-sans font-bold text-3xl xs:text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white tracking-[-0.01em] uppercase">
                 EXPERIENCES
               </span>
             </h1>
@@ -185,7 +210,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
                 handleScrollTo('work');
               }}
               data-cursor="pointer"
-              className="group relative inline-flex items-center justify-between gap-5 px-5 sm:px-6 py-3 bg-black/50 hover:bg-white/[0.08] border border-white/20 hover:border-white/50 backdrop-blur-md rounded-none transition-all duration-300 text-white font-mono text-xs tracking-[0.2em] uppercase min-w-[200px] sm:min-w-[220px] shadow-[0_0_20px_rgba(0,0,0,0.6)] cursor-pointer"
+              className="group relative inline-flex items-center justify-between gap-5 px-4 sm:px-6 py-2.5 sm:py-3 bg-black/50 hover:bg-white/[0.08] border border-white/20 hover:border-white/50 backdrop-blur-md rounded-none transition-all duration-300 text-white font-mono text-xs tracking-[0.2em] uppercase min-w-[190px] sm:min-w-[220px] shadow-[0_0_20px_rgba(0,0,0,0.6)] cursor-pointer"
             >
               <Play className="w-3 h-3 fill-white text-white transition-transform group-hover:scale-110" />
               <span className="font-medium text-neutral-200 group-hover:text-white">VIEW MY WORK</span>
@@ -256,13 +281,13 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
       </div>
 
       {/* ========================================================
-          BOTTOM BAR: '|| ──' MARK & TECH PILLS
+          BOTTOM BAR: '|| ──' MARK & TECH PILLS (SHRINKS RESPONSIVELY)
           ======================================================== */}
-      <div className="w-full flex items-center justify-between z-20 pt-2 gap-4">
+      <div className="w-full max-w-full flex items-center justify-between z-20 pt-2 gap-2 sm:gap-4 overflow-hidden">
         {/* Bottom Left Mark: || ── matching reference */}
-        <div className="flex items-center gap-2 font-mono text-xs text-neutral-500 select-none">
+        <div className="flex items-center gap-1.5 sm:gap-2 font-mono text-[10px] sm:text-xs text-neutral-500 select-none shrink-0">
           <span className="tracking-tighter">||</span>
-          <span className="w-8 h-[1.5px] bg-neutral-600 inline-block" />
+          <span className="w-5 sm:w-8 h-[1.5px] bg-neutral-600 inline-block" />
         </div>
 
         {/* Bottom Right: Tech Pills [ MERN ] [ PYTHON ] [ FASTAPI ] [ TAILWIND ] • */}
@@ -270,17 +295,17 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="ml-auto flex items-center gap-2 sm:gap-2.5 text-[10px] sm:text-xs font-mono tracking-widest text-neutral-400"
+          className="ml-auto flex items-center gap-1 sm:gap-2 md:gap-2.5 text-[8.5px] xs:text-[9.5px] sm:text-[11px] md:text-xs font-mono tracking-wider sm:tracking-widest text-neutral-400 shrink-0"
         >
           {techPills.map((tech) => (
             <span
               key={tech}
-              className="px-2.5 py-1 bg-black/60 border border-white/10 text-neutral-300 hover:border-white/30 transition-colors uppercase select-none"
+              className="px-1.5 xs:px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black/60 border border-white/10 text-neutral-300 hover:border-white/30 transition-colors uppercase select-none rounded-[2px]"
             >
               {tech}
             </span>
           ))}
-          <span className="w-1.5 h-1.5 rounded-full bg-white ml-1 shadow-[0_0_8px_#ffffff]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-white ml-0.5 sm:ml-1 shadow-[0_0_8px_#ffffff] shrink-0" />
         </motion.div>
       </div>
 

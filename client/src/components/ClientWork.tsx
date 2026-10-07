@@ -7,8 +7,10 @@ export const ClientWork: React.FC = () => {
       id="client-work"
       className="relative py-28 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#080808]/80 border-y border-white/10 overflow-hidden"
     >
-      {/* Visual differentiation background glow */}
-      <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-blue-700/[0.04] rounded-full blur-[170px] pointer-events-none" />
+      {/* Visual differentiation background glow safely clipped */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-blue-700/[0.04] rounded-full blur-[170px]" />
+      </div>
 
       <div className="w-full max-w-7xl mx-auto space-y-16">
         {/* Section Header */}

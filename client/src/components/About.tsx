@@ -16,8 +16,10 @@ export const About: React.FC = () => {
 
   return (
     <section id="about" className="relative py-28 px-4 sm:px-6 md:px-12 lg:px-16 overflow-hidden">
-      {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-blue-600/5 rounded-full blur-[140px] pointer-events-none" />
+      {/* Background ambient glow safely clipped */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-blue-600/5 rounded-full blur-[140px]" />
+      </div>
 
       <div className="w-full max-w-7xl mx-auto space-y-12">
         {/* Section Header */}

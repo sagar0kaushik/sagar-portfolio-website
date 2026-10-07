@@ -2,14 +2,22 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useResponsive } from '../hooks/useResponsive';
 import { useDevicePerformance } from '../hooks/useDevicePerformance';
 
+/**
+ * CustomCursor:
+ * Desktop fluid cursor featuring:
+ * - Crisp central tracking dot
+ * - Trailing spring physics glass ring follower
+ * - Smoothly blooms into a high-end glassy circle with text in the middle
+ *   when hovering interactive items, buttons, links, projects, and cards
+ */
 export const CustomCursor: React.FC = () => {
   const { isDesktop, hasTouch } = useResponsive();
   const { prefersReducedMotion } = useDevicePerformance();
 
-  const [cursorType, setCursorType] = useState<'default' | 'pointer' | 'view' | 'interact'>('default');
+  const [cursorType, setCursorType] = useState<'default' | 'badge'>('default');
+  const [cursorText, setCursorText] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
 
-  const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
   const mouseX = useRef(-100);
@@ -19,7 +27,7 @@ export const CustomCursor: React.FC = () => {
   const animFrame = useRef<number | null>(null);
 
   useEffect(() => {
-    // Disable completely on mobile, tablet, touch devices, or if reduced motion is preferred
+    // Only active on desktop pointer devices
     if (!isDesktop || hasTouch || prefersReducedMotion) {
       return;
     }
@@ -29,47 +37,84 @@ export const CustomCursor: React.FC = () => {
       mouseY.current = e.clientY;
       if (!isVisible) setIsVisible(true);
 
-      // Check hovered element
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      const cursorTarget = target.closest('[data-cursor]');
+      // 1. Check explicit data-cursor or data-cursor-text
+      const cursorTarget = target.closest('[data-cursor], [data-cursor-text]');
       if (cursorTarget) {
+        const customText = cursorTarget.getAttribute('data-cursor-text');
+        if (customText) {
+          setCursorText(customText.toUpperCase());
+          setCursorType('badge');
+          return;
+        }
+
         const type = cursorTarget.getAttribute('data-cursor');
-        if (type === 'view') setCursorType('view');
-        else if (type === 'interact') setCursorType('interact');
-        else if (type === 'pointer') setCursorType('pointer');
-        else setCursorType('pointer');
-      } else if (
-        target.closest('button') ||
-        target.closest('a') ||
-        target.tagName === 'BUTTON' ||
-        target.tagName === 'A' ||
-        target.getAttribute('role') === 'button'
-      ) {
-        setCursorType('pointer');
-      } else {
-        setCursorType('default');
+        if (type === 'view') {
+          setCursorText('VIEW');
+          setCursorType('badge');
+          return;
+        } else if (type === 'interact') {
+          setCursorText('INTERACT');
+          setCursorType('badge');
+          return;
+        } else if (type === 'pointer') {
+          const text = cursorTarget.textContent?.trim() || '';
+          if (text.includes('WORK') || text.includes('PROJECT')) {
+            setCursorText('VIEW');
+          } else if (text.includes('RESUME')) {
+            setCursorText('RESUME');
+          } else {
+            setCursorText('EXPLORE');
+          }
+          setCursorType('badge');
+          return;
+        }
       }
+
+      // 2. Check project cards or work links
+      if (
+        target.closest('[data-project]') ||
+        target.closest('#work a') ||
+        target.closest('#work button') ||
+        target.closest('#client-work a')
+      ) {
+        setCursorText('VIEW');
+        setCursorType('badge');
+        return;
+      }
+
+      // 3. Check general buttons and links
+      const btn = target.closest('button, a, [role="button"]');
+      if (btn) {
+        const text = btn.textContent?.trim() || '';
+        if (text.includes('VIEW') || text.includes('WORK')) {
+          setCursorText('VIEW');
+        } else if (text.includes('RESUME')) {
+          setCursorText('RESUME');
+        } else if (text.length > 0 && text.length <= 8) {
+          setCursorText(text.toUpperCase());
+        } else {
+          setCursorText('CLICK');
+        }
+        setCursorType('badge');
+        return;
+      }
+
+      // 4. Default state
+      setCursorType('default');
+      setCursorText('');
     };
 
-    const onPointerLeave = () => {
-      setIsVisible(false);
-    };
+    const onPointerLeave = () => setIsVisible(false);
+    const onPointerEnter = () => setIsVisible(true);
 
-    const onPointerEnter = () => {
-      setIsVisible(true);
-    };
-
-    // Smooth physics loop for ring follower
+    // Spring physics render loop
+    const lerp = 0.16;
     const render = () => {
-      const lerp = 0.18;
       ringX.current += (mouseX.current - ringX.current) * lerp;
       ringY.current += (mouseY.current - ringY.current) * lerp;
-
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX.current}px, ${mouseY.current}px, 0)`;
-      }
 
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ringX.current}px, ${ringY.current}px, 0)`;
@@ -96,41 +141,24 @@ export const CustomCursor: React.FC = () => {
     return null;
   }
 
-  const isTextBadge = cursorType === 'view' || cursorType === 'interact';
+  const isBadge = cursorType === 'badge' && cursorText.length > 0;
 
   return (
     <>
-      {/* Central crisp dot */}
-      <div
-        ref={dotRef}
-        className={`fixed top-0 left-0 w-2 h-2 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        } ${isTextBadge ? 'opacity-0' : 'bg-white'}`}
-      />
-
-      {/* Trailing interactive ring / capsule */}
+      {/* Trailing follower: blooms into glassy circle with text in middle */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-all duration-300 ease-out ${
+        className={`fixed top-0 left-0 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-all duration-300 ease-out select-none ${
           isVisible ? 'opacity-100' : 'opacity-0'
         } ${
-          cursorType === 'default'
-            ? 'w-8 h-8 rounded-full border border-white/25 bg-white/[0.02]'
-            : cursorType === 'pointer'
-            ? 'w-12 h-12 rounded-full border border-white/40 bg-white/[0.08] backdrop-blur-[2px]'
-            : cursorType === 'view'
-            ? 'w-16 h-16 rounded-full border border-white/40 bg-white/10 backdrop-blur-md shadow-glow-silver'
-            : 'w-20 h-20 rounded-full border border-blue-400/50 bg-blue-500/10 backdrop-blur-md shadow-glow-subtle'
+          isBadge
+            ? 'w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/40 bg-white/10 backdrop-blur-md shadow-[0_0_24px_rgba(255,255,255,0.18)]'
+            : 'w-8 h-8 rounded-full border border-white/25 bg-white/[0.02] backdrop-blur-[1px]'
         }`}
       >
-        {cursorType === 'view' && (
-          <span className="text-[10px] font-mono tracking-widest text-white uppercase font-medium">
-            VIEW
-          </span>
-        )}
-        {cursorType === 'interact' && (
-          <span className="text-[9px] font-mono tracking-widest text-blue-200 uppercase font-semibold">
-            INTERACT
+        {isBadge && (
+          <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-white uppercase font-semibold text-center px-1 drop-shadow-sm">
+            {cursorText}
           </span>
         )}
       </div>

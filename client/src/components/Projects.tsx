@@ -6,7 +6,9 @@ export const Projects: React.FC = () => {
   return (
     <section id="work" className="relative py-28 px-4 sm:px-6 md:px-12 lg:px-16">
       {/* Ambient background glow */}
-      <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-blue-600/[0.04] rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-blue-600/[0.04] rounded-full blur-[160px]" />
+      </div>
 
       <div className="w-full max-w-7xl mx-auto space-y-16">
         {/* Section Header */}

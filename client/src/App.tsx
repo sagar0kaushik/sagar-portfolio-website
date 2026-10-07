@@ -26,7 +26,7 @@ export default function App() {
   useLenisSmoothScroll();
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#F5F5F5] digital-grid-bg selection:bg-blue-500/30 selection:text-white">
+    <div className="relative min-h-screen w-full max-w-full bg-[#050505] text-[#F5F5F5] digital-grid-bg selection:bg-blue-500/30 selection:text-white">
       {/* 01. Cinematic Minimal Loading Screen */}
       <Loader onLoadingComplete={() => setIsLoading(false)} />
 
@@ -42,7 +42,7 @@ export default function App() {
       <Navbar />
 
       {/* Main Website Experience */}
-      <main className="relative z-10 w-full flex flex-col">
+      <main className="relative z-10 w-full max-w-full flex flex-col">
         {/* 03. Hero Section with Interactive Character & Clamp Typography */}
         <Hero />
 

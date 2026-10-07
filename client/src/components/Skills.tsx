@@ -13,8 +13,10 @@ export const Skills: React.FC = () => {
 
   return (
     <section id="skills" className="relative py-28 px-4 sm:px-6 md:px-12 lg:px-16 overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/3 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+      {/* Background ambient lighting safely clipped */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/3 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-[150px]" />
+      </div>
 
       <div className="w-full max-w-7xl mx-auto space-y-12">
         {/* Section Header */}

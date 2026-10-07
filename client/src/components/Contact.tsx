@@ -55,8 +55,10 @@ export const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="relative py-28 px-4 sm:px-6 md:px-12 lg:px-16 overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute bottom-0 left-1/3 w-[600px] h-[600px] bg-blue-600/[0.05] rounded-full blur-[180px] pointer-events-none" />
+      {/* Ambient background glow safely clipped */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute bottom-0 left-1/3 w-[600px] h-[600px] bg-blue-600/[0.05] rounded-full blur-[180px]" />
+      </div>
 
       <div className="w-full max-w-7xl mx-auto space-y-16">
         {/* Section Header */}

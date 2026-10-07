@@ -52,12 +52,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, rotateX: 18, y: 48 }}
+      whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
       style={{
         perspective: 1200,
-        top: `calc(100px + ${index * 32}px)`,
+        transformOrigin: '50% 0%',
+        top: `calc(90px + ${index * 32}px)`,
       }}
-      className="sticky w-full mb-12"
+      className="sticky w-full mb-12 will-change-transform flip-on-scroll"
     >
       <motion.div
         ref={cardRef}
@@ -211,6 +216,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };

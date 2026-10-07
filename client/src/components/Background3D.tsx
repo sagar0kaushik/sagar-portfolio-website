@@ -91,10 +91,12 @@ export const Background3D: React.FC = () => {
   const particleCount = isLowEnd ? 40 : 120;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-60">
-      {/* Ambient background glow orbs */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full bg-blue-600/[0.04] blur-[160px]" />
-      <div className="absolute bottom-1/4 left-10 w-[500px] h-[500px] rounded-full bg-cyan-500/[0.03] blur-[140px]" />
+    <div className="fixed inset-0 w-full h-full max-w-full max-h-full pointer-events-none z-0 overflow-hidden opacity-60">
+      {/* Ambient background glow orbs safely clipped */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full bg-blue-600/[0.04] blur-[160px]" />
+        <div className="absolute bottom-1/4 left-10 w-[500px] h-[500px] rounded-full bg-cyan-500/[0.03] blur-[140px]" />
+      </div>
 
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}

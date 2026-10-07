@@ -100,13 +100,13 @@ export const Marquee: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-full py-12 overflow-hidden border-y border-white/5 bg-black/40 backdrop-blur-sm select-none">
+    <div className="relative w-full max-w-full py-12 overflow-hidden border-y border-white/5 bg-black/40 backdrop-blur-sm select-none">
       {/* Edge gradient masks for seamless fade out */}
       <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
 
       {/* Row 1: Moves right */}
-      <div className="flex mb-6 overflow-visible">
+      <div className="flex mb-6 overflow-hidden">
         <div
           ref={row1Ref}
           className="flex gap-6 will-change-transform"
@@ -140,7 +140,7 @@ export const Marquee: React.FC = () => {
       </div>
 
       {/* Row 2: Moves left */}
-      <div className="flex overflow-visible">
+      <div className="flex overflow-hidden">
         <div
           ref={row2Ref}
           className="flex gap-6 will-change-transform"
