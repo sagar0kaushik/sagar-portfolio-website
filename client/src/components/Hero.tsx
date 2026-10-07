@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Play, ArrowUpRight } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TwitterIcon } from './Icons';
-import { CharacterProp } from './CharacterProp';
+import { HeroCharacter } from './HeroCharacter';
 
 interface HeroProps {
   onViewWorkClick?: () => void;
@@ -46,13 +46,23 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[100svh] w-full flex flex-col justify-between pt-6 sm:pt-8 lg:pt-10 pb-6 px-6 sm:px-10 md:px-14 lg:px-16 overflow-hidden bg-[#070707]"
+      className="relative min-h-[100svh] w-full flex flex-col justify-between pt-6 sm:pt-8 lg:pt-8 pb-5 px-6 sm:px-10 md:px-12 lg:px-16 overflow-hidden bg-[#000000]"
     >
-      {/* Background radial atmosphere */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[550px] bg-gradient-to-b from-white/[0.03] via-blue-500/[0.015] to-transparent rounded-full blur-[140px] pointer-events-none" />
+      {/* ========================================================
+          BACKGROUND: AMBIENT GOLDEN GLOW & COORDINATE CROSSHAIRS
+          ======================================================== */}
+      {/* Subtle ambient warm golden backlight behind character */}
+      <div className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[520px] bg-[radial-gradient(circle,rgba(245,158,11,0.18)_0%,rgba(217,119,6,0.06)_40%,transparent_70%)] rounded-full blur-[90px] pointer-events-none z-0" />
+
+      {/* Coordinate '+' crosshairs matching mockup reference */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0" aria-hidden="true">
+        <span className="absolute left-[28%] top-[38%] font-mono text-xs text-white/10">+</span>
+        <span className="absolute right-[29%] top-[38%] font-mono text-xs text-white/10">+</span>
+        <span className="absolute right-[29%] bottom-[24%] font-mono text-xs text-white/10">+</span>
+      </div>
 
       {/* ========================================================
-          TOP HEADER BAR (Matches reference media_1790321322327.png)
+          TOP HEADER BAR (Matches reference media_1791291181148.png)
           ======================================================== */}
       <div className="w-full flex flex-col sm:flex-row sm:items-start justify-between z-20 gap-6">
         {/* Top-Left: Name & Tagline */}
@@ -60,12 +70,12 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="space-y-2 max-w-xs"
+          className="space-y-1.5 max-w-xs"
         >
           <div className="font-mono text-xs sm:text-sm font-semibold tracking-[0.25em] text-white uppercase leading-tight">
             SAGAR<br />KAUSHIK
           </div>
-          <div className="w-5 h-[1.5px] bg-neutral-600" />
+          <div className="w-5 h-[1.5px] bg-neutral-600 my-2" />
           <p className="font-mono text-[11px] sm:text-xs text-neutral-400 font-normal leading-relaxed">
             A developer crafting clean, scalable and meaningful digital experiences.
           </p>
@@ -76,7 +86,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="hidden md:flex items-center gap-7 lg:gap-9 text-xs font-mono tracking-[0.2em] text-neutral-400 uppercase"
+          className="hidden md:flex items-center gap-7 lg:gap-8 text-xs font-mono tracking-[0.2em] text-neutral-400 uppercase"
         >
           <button
             onClick={() => handleScrollTo('about')}
@@ -119,53 +129,63 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
       </div>
 
       {/* ========================================================
-          MAIN HERO BODY (Center Character + Left Copy + Right List)
+          CENTER CHARACTER: PROMINENT ENLARGED 3D BUST FLUSH TO BOTTOM
+          - Takes ~90vh height & ~56% viewport width
+          - 100% stable from top to bottom
+          - Natural 360° conjugate eye tracking
           ======================================================== */}
-      <div className="relative w-full my-auto py-3 sm:py-5 lg:py-2 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-0 z-20">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 flex items-end justify-center pointer-events-none select-none w-full max-w-[860px] lg:max-w-[880px] xl:max-w-[940px] h-[75vh] sm:h-[82vh] md:h-[88vh] lg:h-[91vh] max-h-[860px]">
+        <HeroCharacter />
+      </div>
+
+      {/* ========================================================
+          MAIN HERO BODY (Left Copy + Right List)
+          ======================================================== */}
+      <div className="relative w-full my-auto py-2 flex items-center justify-between z-20 pointer-events-none">
         
-        {/* --- LEFT COLUMN: Typography & Actions (5 Cols on LG) --- */}
+        {/* --- LEFT COLUMN: Typography & Actions --- */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="lg:col-span-4 xl:col-span-4 flex flex-col justify-center space-y-6 sm:space-y-7 z-20"
+          className="flex flex-col justify-center space-y-4 sm:space-y-5 max-w-sm sm:max-w-md z-20 pointer-events-auto"
         >
           {/* Index Counter */}
           <div className="font-mono text-xs sm:text-sm tracking-[0.2em] text-neutral-400 flex items-center gap-3">
             <span>01</span>
-            <span className="inline-block w-8 sm:w-12 h-[1.5px] bg-neutral-400" />
+            <span className="inline-block w-8 sm:w-10 h-[1.5px] bg-neutral-400" />
           </div>
 
-          {/* Large Hero Title matching reference media_1790332392743.png */}
-          <div className="space-y-1 sm:space-y-1.5">
+          {/* Large Hero Title matching reference media_1791291181148.png */}
+          <div className="space-y-0.5 sm:space-y-1">
             <h1 className="leading-[0.92] select-none tracking-tight">
-              <span className="block font-sans font-normal text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] xl:text-[5.25rem] text-white tracking-[-0.01em] uppercase">
+              <span className="block font-sans font-bold text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white tracking-[-0.01em] uppercase">
                 I BUILD
               </span>
-              {/* Pixelated DIGITAL Font matching reference */}
-              <span className="block font-pixel font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[3.9rem] xl:text-[4.4rem] text-white tracking-[0.05em] uppercase my-1 sm:my-1.5 leading-[0.95]">
+              {/* Pixelated DIGITAL Font in warm cream with amber outer glow */}
+              <span className="block font-pixel font-bold text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.75rem] text-[#F5EBE1] tracking-[0.04em] uppercase my-0.5 sm:my-1 leading-[0.95] drop-shadow-[0_0_20px_rgba(245,158,11,0.55)]">
                 DIGITAL
               </span>
-              <span className="block font-sans font-normal text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] xl:text-[5.25rem] text-white tracking-[-0.01em] uppercase">
+              <span className="block font-sans font-bold text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] text-white tracking-[-0.01em] uppercase">
                 EXPERIENCES
               </span>
             </h1>
           </div>
 
-          {/* Subtitle Description on two lines matching reference */}
-          <p className="font-mono text-xs sm:text-sm md:text-[13px] text-neutral-400 font-normal leading-relaxed max-w-md">
+          {/* Subtitle Description */}
+          <p className="font-mono text-xs sm:text-sm text-neutral-400 font-normal leading-relaxed max-w-xs sm:max-w-sm">
             Turning complex problems into simple,<br className="hidden sm:inline" /> beautiful and functional products.
           </p>
 
           {/* Action Button: [ ▶  VIEW MY WORK  ↗ ] */}
-          <div className="pt-2">
+          <div className="pt-1">
             <button
               onClick={() => {
                 onViewWorkClick?.();
                 handleScrollTo('work');
               }}
               data-cursor="pointer"
-              className="group relative inline-flex items-center justify-between gap-4 px-5 sm:px-6 py-3.5 bg-black/40 hover:bg-white/[0.06] border border-white/20 hover:border-white/50 backdrop-blur-md rounded-none transition-all duration-300 text-white font-mono text-xs tracking-[0.2em] uppercase min-w-[210px] sm:min-w-[240px] shadow-[0_0_20px_rgba(0,0,0,0.6)] cursor-pointer"
+              className="group relative inline-flex items-center justify-between gap-5 px-5 sm:px-6 py-3 bg-black/50 hover:bg-white/[0.08] border border-white/20 hover:border-white/50 backdrop-blur-md rounded-none transition-all duration-300 text-white font-mono text-xs tracking-[0.2em] uppercase min-w-[200px] sm:min-w-[220px] shadow-[0_0_20px_rgba(0,0,0,0.6)] cursor-pointer"
             >
               <Play className="w-3 h-3 fill-white text-white transition-transform group-hover:scale-110" />
               <span className="font-medium text-neutral-200 group-hover:text-white">VIEW MY WORK</span>
@@ -174,7 +194,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center gap-5 pt-3">
+          <div className="flex items-center gap-5 pt-1">
             <a
               href="https://github.com/sagar0kaushik"
               target="_blank"
@@ -208,29 +228,21 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           </div>
         </motion.div>
 
-        {/* --- CENTER COLUMN: Stable Interactive Character (5 Cols on LG) --- */}
-        <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center relative w-full my-6 lg:my-0">
-          <CharacterProp
-            variant="hero"
-            isTrackingActive={true}
-          />
-        </div>
-
-        {/* --- RIGHT COLUMN: WHAT I DO List (3 Cols on LG) --- */}
+        {/* --- RIGHT COLUMN: WHAT I DO List (Desktop) --- */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.25 }}
-          className="hidden lg:flex lg:col-span-3 xl:col-span-3 flex-col items-start justify-center space-y-4 pl-4 xl:pl-8 z-20"
+          className="hidden lg:flex flex-col items-start justify-center space-y-3.5 mr-24 xl:mr-28 z-20 pointer-events-auto"
         >
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <div className="font-mono text-xs tracking-[0.25em] text-white uppercase font-medium">
               WHAT I DO
             </div>
             <div className="w-5 h-[1.5px] bg-neutral-600" />
           </div>
 
-          <ul className="space-y-3 pt-1">
+          <ul className="space-y-2.5 pt-1">
             {whatIDoItems.map((item) => (
               <li
                 key={item}
@@ -244,16 +256,13 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
       </div>
 
       {/* ========================================================
-          BOTTOM BAR & FAR-RIGHT SCROLL TRACK INDICATOR
+          BOTTOM BAR: '|| ──' MARK & TECH PILLS
           ======================================================== */}
-      <div className="w-full flex flex-col sm:flex-row items-end sm:items-center justify-between z-20 pt-4 gap-4">
-        {/* Mobile "What I Do" Quick Pills */}
-        <div className="flex lg:hidden flex-wrap gap-2 text-[11px] font-mono text-neutral-400">
-          {whatIDoItems.slice(0, 3).map((item) => (
-            <span key={item} className="px-2.5 py-1 bg-white/[0.03] border border-white/10 rounded-sm">
-              {item}
-            </span>
-          ))}
+      <div className="w-full flex items-center justify-between z-20 pt-2 gap-4">
+        {/* Bottom Left Mark: || ── matching reference */}
+        <div className="flex items-center gap-2 font-mono text-xs text-neutral-500 select-none">
+          <span className="tracking-tighter">||</span>
+          <span className="w-8 h-[1.5px] bg-neutral-600 inline-block" />
         </div>
 
         {/* Bottom Right: Tech Pills [ MERN ] [ PYTHON ] [ FASTAPI ] [ TAILWIND ] • */}
@@ -266,7 +275,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewWorkClick }) => {
           {techPills.map((tech) => (
             <span
               key={tech}
-              className="px-2.5 py-1 bg-black/40 border border-white/10 text-neutral-300 hover:border-white/30 transition-colors uppercase"
+              className="px-2.5 py-1 bg-black/60 border border-white/10 text-neutral-300 hover:border-white/30 transition-colors uppercase select-none"
             >
               {tech}
             </span>
