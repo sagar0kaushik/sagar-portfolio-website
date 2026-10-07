@@ -29,7 +29,7 @@
       property="og:description"
       content="Portfolio of Sagar Kaushik — Full Stack Developer building modern, interactive and scalable digital experiences."
     />
-    <meta property="og:image" content="/assets/sagar-character.png" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/sagar0kaushik/sagar-portfolio-website/main/client/public/assets/character/sagar-bust-base.png" />
     <meta property="og:site_name" content="Sagar Kaushik Portfolio" />
 
     <!-- Twitter / X -->
@@ -40,7 +40,51 @@
       name="twitter:description"
       content="Portfolio of Sagar Kaushik — Full Stack Developer building modern, interactive and scalable digital experiences."
     />
-    <meta name="twitter:image" content="/assets/sagar-character.png" />
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/sagar0kaushik/sagar-portfolio-website/main/client/public/assets/character/sagar-bust-base.png" />
+
+    <!-- Schema.org JSON-LD Structured Data for Google Search Engine Authority -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://sagarkaushik.com/#person",
+            "name": "Sagar Kaushik",
+            "alternateName": ["sagar0kaushik", "Sagar Kaushik Developer"],
+            "jobTitle": "Full Stack Developer",
+            "url": "https://sagarkaushik.com/",
+            "image": "https://raw.githubusercontent.com/sagar0kaushik/sagar-portfolio-website/main/client/public/assets/character/sagar-bust-base.png",
+            "sameAs": [
+              "https://github.com/sagar0kaushik",
+              "https://linkedin.com/in/sagar0kaushik",
+              "https://twitter.com/sagar0kaushik"
+            ],
+            "knowsAbout": [
+              "Full Stack Development",
+              "React",
+              "TypeScript",
+              "Node.js",
+              "Python",
+              "FastAPI",
+              "Three.js",
+              "Tailwind CSS",
+              "Distributed Systems"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://sagarkaushik.com/#website",
+            "url": "https://sagarkaushik.com/",
+            "name": "Sagar Kaushik — Portfolio",
+            "description": "Portfolio of Sagar Kaushik — Full Stack Developer building modern, interactive and scalable digital experiences.",
+            "author": {
+              "@id": "https://sagarkaushik.com/#person"
+            }
+          }
+        ]
+      }
+    </script>
 
     <!-- Google Fonts: Inter, JetBrains Mono, Pixelify Sans, Space Grotesk, Silkscreen -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
